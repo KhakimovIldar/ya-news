@@ -1,5 +1,5 @@
 import pytest
-from datetime import datetime, timedelta 
+from datetime import datetime, timedelta
 
 from django.conf import settings
 from django.test.client import Client
@@ -40,6 +40,7 @@ def news():
         text='Tекст новости',
     )
     return news
+
 
 @pytest.fixture
 def news_list():

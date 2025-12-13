@@ -14,7 +14,7 @@ User = get_user_model()
 
 
 class TestCommentCreation(TestCase):
-    # Текст комментария понадобится в нескольких местах кода, 
+    # Текст комментария понадобится в нескольких местах кода,
     # поэтому запишем его в атрибуты класса.
     COMMENT_TEXT = 'Текст комментария'
 
@@ -32,7 +32,7 @@ class TestCommentCreation(TestCase):
 
     def test_anonymous_user_cant_create_comment(self):
         # Совершаем запрос от анонимного клиента, в POST-запросе отправляем
-        # предварительно подготовленные данные формы с текстом комментария.     
+        # предварительно подготовленные данные формы с текстом комментария.
         self.client.post(self.url, data=self.form_data)
         # Считаем количество комментариев.
         comments_count = Comment.objects.count()
@@ -70,4 +70,4 @@ class TestCommentCreation(TestCase):
         )
         # Дополнительно убедимся, что комментарий не был создан.
         comments_count = Comment.objects.count()
-        self.assertEqual(comments_count, 0) 
+        self.assertEqual(comments_count, 0)

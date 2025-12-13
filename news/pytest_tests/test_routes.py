@@ -7,7 +7,8 @@ from pytest_lazy_fixtures import lf
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize('name, expected_status',
+@pytest.mark.parametrize(
+    'name, expected_status',
     (
         ('news:home', HTTPStatus.OK, ),
         ('users:login', HTTPStatus.OK),

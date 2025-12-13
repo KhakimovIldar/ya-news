@@ -18,7 +18,7 @@ class TestNews(TestCase):
         cls.user = User.objects.create(username='testUser')
         # Создаём объект клиента.
         cls.user_client = Client()
-        # "Логинимся" в клиенте при помощи метода force_login().        
+        # "Логинимся" в клиенте при помощи метода force_login().
         cls.user_client.force_login(cls.user)
         # Теперь через этот клиент можно отправлять запросы
         # от имени пользователя с логином "testUser".
@@ -27,7 +27,7 @@ class TestNews(TestCase):
 class TestRoutes(TestCase):
 
     def test_home_page(self):
-        # Вместо прямого указания адреса 
+        # Вместо прямого указания адреса
         # получаем его при помощи функции reverse().
         url = reverse('news:home')
         response = self.client.get(url)
