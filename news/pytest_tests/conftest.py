@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import pytest
 from django.conf import settings
 from django.test.client import Client
+from django.urls import reverse
 
 from news.forms import BAD_WORDS
 from news.models import Comment, News
@@ -54,7 +55,6 @@ def news_list():
     News.objects.bulk_create(news_list)
 
 
-
 @pytest.fixture
 def comment(author, news):
     return Comment.objects.create(
@@ -75,3 +75,13 @@ def comments_list(author, news):
         for i in range(settings.NEWS_COUNT_ON_HOME_PAGE + 1)
     ]
     Comment.objects.bulk_create(comments_list)
+
+
+@pytest.fixture
+def home_url():
+    return reverse('news:home')
+
+
+@pytest.fixture
+def news_detail_url(news):
+    return reverse('news:detail', args=(news.id,))
