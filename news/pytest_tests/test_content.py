@@ -1,6 +1,5 @@
-from django.conf import settings
 import pytest
-from pytest_lazy_fixtures import lf
+from django.conf import settings
 
 from news.forms import CommentForm
 
@@ -21,7 +20,7 @@ def test_news_sorted(client, home_url, news_list):
     """
     response = client.get(home_url)
     news = response.context['object_list']
-    all_dates = [news.date for news in news]
+    all_dates = [new.date for new in news]
     assert all_dates == sorted(all_dates, reverse=True)
 
 

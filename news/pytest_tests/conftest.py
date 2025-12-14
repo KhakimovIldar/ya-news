@@ -8,7 +8,6 @@ from django.urls import reverse
 from news.forms import BAD_WORDS
 from news.models import Comment, News
 
-
 @pytest.fixture
 def author(django_user_model):
     return django_user_model.objects.create(username='Автор')
@@ -83,5 +82,30 @@ def home_url():
 
 
 @pytest.fixture
+def login_url():
+    return reverse('users:login')
+
+
+@pytest.fixture
+def news_delete_url(comment):
+    return reverse('news:delete', args=(comment.id,))
+
+
+@pytest.fixture
+def news_edit_url(comment):
+    return reverse('news:edit', args=(comment.id,))
+
+
+@pytest.fixture
 def news_detail_url(news):
     return reverse('news:detail', args=(news.id,))
+
+
+@pytest.fixture
+def expected_url_after_anonymous_add_comment(login_url, news_detail_url):
+    return f'{login_url}?next={news_detail_url}'
+
+
+@pytest.fixture
+def expected_url_after_add_comment(news_detail_url):
+    return news_detail_url + '#comments'
