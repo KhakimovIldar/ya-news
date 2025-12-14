@@ -5,8 +5,8 @@ from django.conf import settings
 from django.test.client import Client
 from django.urls import reverse
 
-from news.forms import BAD_WORDS
 from news.models import Comment, News
+
 
 @pytest.fixture
 def author(django_user_model):
@@ -77,6 +77,26 @@ def comments_list(author, news):
 
 
 @pytest.fixture
+def expected_url_after_add_comment(news_detail_url):
+    return news_detail_url + '#comments'
+
+
+@pytest.fixture
+def expected_url_after_anonymous_add_comment(login_url, news_detail_url):
+    return f'{login_url}?next={news_detail_url}'
+
+
+@pytest.fixture
+def expected_url_after_anonymous_edit_comment(login_url, news_edit_url):
+    return f'{login_url}?next={news_edit_url}'
+
+
+@pytest.fixture
+def expected_url_after_anonymous_delete_comment(login_url, news_delete_url):
+    return f'{login_url}?next={news_delete_url}'
+
+
+@pytest.fixture
 def home_url():
     return reverse('news:home')
 
@@ -87,13 +107,13 @@ def login_url():
 
 
 @pytest.fixture
-def news_delete_url(comment):
-    return reverse('news:delete', args=(comment.id,))
+def logout_url():
+    return reverse('users:logout')
 
 
 @pytest.fixture
-def news_edit_url(comment):
-    return reverse('news:edit', args=(comment.id,))
+def news_delete_url(comment):
+    return reverse('news:delete', args=(comment.id,))
 
 
 @pytest.fixture
@@ -102,10 +122,10 @@ def news_detail_url(news):
 
 
 @pytest.fixture
-def expected_url_after_anonymous_add_comment(login_url, news_detail_url):
-    return f'{login_url}?next={news_detail_url}'
+def news_edit_url(comment):
+    return reverse('news:edit', args=(comment.id,))
 
 
 @pytest.fixture
-def expected_url_after_add_comment(news_detail_url):
-    return news_detail_url + '#comments'
+def signup_url(comment):
+    return reverse('users:signup')
