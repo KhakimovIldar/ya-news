@@ -43,15 +43,13 @@ def news():
 @pytest.fixture
 def news_list():
     today = datetime.today()
-    news_list = [
-        News(
-            title=f'Заголовок новости {i}',
-            text=f'Tекст новости {i}',
-            date=today - timedelta(days=i)
-        )
-        for i in range(settings.NEWS_COUNT_ON_HOME_PAGE + 1)
-    ]
-    News.objects.bulk_create(news_list)
+    News.objects.bulk_create(
+        [News(title=f'Заголовок новости {i}',
+              text=f'Tекст новости {i}',
+              date=today - timedelta(days=i))
+         for i in range(settings.NEWS_COUNT_ON_HOME_PAGE + 1)
+         ]
+    )
 
 
 @pytest.fixture
@@ -65,20 +63,20 @@ def comment(author, news):
 
 @pytest.fixture
 def comments_list(author, news):
-    comments_list = [
-        Comment(
+    now = datetime.now()
+    for i in range(settings.NEWS_COUNT_ON_HOME_PAGE + 1):
+        comment = Comment.objects.create(
             news=news,
             text=f'Tекст комментария {i}',
             author=author,
         )
-        for i in range(settings.NEWS_COUNT_ON_HOME_PAGE + 1)
-    ]
-    Comment.objects.bulk_create(comments_list)
+        comment.created = now + timedelta(days=i)
+        comment.save()
 
 
 @pytest.fixture
 def expected_url_after_add_comment(news_detail_url):
-    return news_detail_url + '#comments'
+    return f'{news_detail_url}#comments'
 
 
 @pytest.fixture

@@ -8,9 +8,9 @@ pytestmark = pytest.mark.django_db
 
 def test_news_count(client, home_url, news_list):
     """Количество новостей на главной странице — не более 10."""
-    response = client.get(home_url)
-    news = response.context['object_list']
-    assert news.count() == settings.NEWS_COUNT_ON_HOME_PAGE
+    assert client.get(home_url).context['object_list'].count() == (
+        settings.NEWS_COUNT_ON_HOME_PAGE
+    )
 
 
 def test_news_sorted(client, home_url, news_list):
@@ -18,9 +18,8 @@ def test_news_sorted(client, home_url, news_list):
     Новости отсортированы от самой свежей к самой старой.
     Свежие новости в начале списка.
     """
-    response = client.get(home_url)
-    news = response.context['object_list']
-    all_dates = [new.date for new in news]
+    all_dates = ([new.date for new in client.get(home_url).context
+                  ['object_list']])
     assert all_dates == sorted(all_dates, reverse=True)
 
 
